@@ -1,5 +1,6 @@
 package com.github.prodws.codingplatform.user;
 
+import com.github.prodws.codingplatform.config.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public List<User> getUsers() {
         return userRepository.findAll();
@@ -24,6 +26,17 @@ public class UserService {
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalStateException("User not found"));
+    }
+
+    public String login(String emailOrUsername, String password) {
+        User user = userRepository.findByEmail(emailOrUsername)
+                .orElseGet(() -> userRepository.findByUsername(emailOrUsername)
+                        .orElseThrow(() -> new IllegalStateException("User not found")));
+
+        if (!verifyPassword(password, user.getPasswordHash()))
+            throw new IllegalStateException("Invalid credentials");
+
+        return jwtTokenProvider.generateToken(user.getEmail());
     }
 
     public void addNewUser(String username, String email, String password) {
