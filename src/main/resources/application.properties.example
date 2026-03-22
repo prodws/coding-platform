@@ -1,0 +1,19 @@
+# This is a template - copy to application.properties and fill in values marked with ?
+# database
+spring.datasource.url=jdbc:postgresql://localhost:5432/coding_platform
+spring.datasource.username=?
+spring.datasource.password=?
+
+# jpa
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.open-in-view=false
+
+# graphql
+spring.graphql.graphiql.enabled=true
+
+# security
+# generate with: openssl rand -base64 32
+application.security.jwt.secret=?
+application.security.jwt.expiration=86400000
