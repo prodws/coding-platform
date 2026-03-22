@@ -24,14 +24,23 @@ public class User {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false, length = 255)
     private String passwordHash;
+
+    @Column(nullable = false)
     private Long totalPoints;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     public User(String username, String email, String passwordHash) {
