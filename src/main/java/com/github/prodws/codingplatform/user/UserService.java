@@ -28,6 +28,11 @@ public class UserService {
                 .orElseThrow(() -> new IllegalStateException("User not found"));
     }
 
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalStateException("User not found"));
+    }
+
     public String login(String emailOrUsername, String password) {
         User user = userRepository.findByEmail(emailOrUsername)
                 .orElseGet(() -> userRepository.findByUsername(emailOrUsername)
@@ -39,12 +44,12 @@ public class UserService {
         return jwtTokenProvider.generateToken(user.getEmail());
     }
 
-    public void addNewUser(String username, String email, String password) {
+    public User register(String username, String email, String password) {
         checkIfEmailExists(email);
         checkIfUsernameExists(username);
 
         User user = new User(username, email, passwordEncoder.encode(password));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     private void checkIfEmailExists(String email) {
@@ -63,26 +68,26 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public boolean verifyPassword(String rawPassword, String storedHash) {
+    private boolean verifyPassword(String rawPassword, String storedHash) {
         return passwordEncoder.matches(rawPassword, storedHash);
     }
 
-    public void updateUsername(Long id, String newUsername) {
+    public User updateUsername(Long id, String newUsername) {
         User user = getUserById(id);
         checkIfUsernameExists(newUsername);
         user.setUsername(newUsername);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
-    public void updatePassword(Long id, String newPassword) {
+    public User updatePassword(Long id, String newPassword) {
         User user = getUserById(id);
         user.setPasswordHash(passwordEncoder.encode(newPassword));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
-    public void addPoints(Long id, Long pointsToAdd) {
+    public User addPoints(Long id, Long pointsToAdd) {
         User user = getUserById(id);
         user.setTotalPoints(user.getTotalPoints() + pointsToAdd);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 }

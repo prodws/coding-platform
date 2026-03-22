@@ -1,0 +1,18 @@
+type Query {
+    userByUsername(username: String!): User
+}
+
+type Mutation {
+    register(username: String!, email: String!, password: String!): User
+    login(emailOrUsername: String!, password: String!): String
+    updateUsername(newUsername: String!): User
+    updatePassword(newPassword: String!): User
+
+}
+
+type User {
+    username: String
+    email: String
+    totalPoints: Int
+    createdAt: String
+}
