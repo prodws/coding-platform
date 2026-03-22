@@ -1,5 +1,6 @@
 package com.github.prodws.codingplatform.config;
 
+import com.github.prodws.codingplatform.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -18,11 +19,12 @@ public class JwtTokenProvider {
     @Value("${application.security.jwt.expiration}")
     private long expiration;
 
-    public String generateToken(String email) {
+    public String generateToken(User user) {
         Instant now = Instant.now();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .subject(email)
+                .subject(String.valueOf(user.getId()))
+                .claim("email", user.getEmail())
                 .issuedAt(now)
                 .expiresAt(now.plusMillis(expiration))
                 .build();

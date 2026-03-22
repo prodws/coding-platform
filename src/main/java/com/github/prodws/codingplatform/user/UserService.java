@@ -41,7 +41,7 @@ public class UserService {
         if (!verifyPassword(password, user.getPasswordHash()))
             throw new IllegalStateException("Invalid credentials");
 
-        return jwtTokenProvider.generateToken(user.getEmail());
+        return jwtTokenProvider.generateToken(user);
     }
 
     public User register(String username, String email, String password) {
