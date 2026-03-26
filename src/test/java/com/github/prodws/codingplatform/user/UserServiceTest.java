@@ -1,6 +1,7 @@
 package com.github.prodws.codingplatform.user;
 
 import com.github.prodws.codingplatform.config.JwtTokenProvider;
+import jakarta.validation.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +29,8 @@ class UserServiceTest {
     private BCryptPasswordEncoder passwordEncoder;
     @Mock
     private JwtTokenProvider jwtTokenProvider;
+    @Mock
+    private Validator validator;
 
     @InjectMocks
     private UserService userService;
@@ -48,6 +52,7 @@ class UserServiceTest {
         when(userRepository.existsByEmail(email)).thenReturn(false);
         when(userRepository.existsByUsername(username)).thenReturn(false);
         when(passwordEncoder.encode(password)).thenReturn(hashedPassword);
+        when(validator.validate(any(User.class))).thenReturn(Collections.emptySet());
         when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArgument(0));
 
         User result = userService.register(username, email, password);

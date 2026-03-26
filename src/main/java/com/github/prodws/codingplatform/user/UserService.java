@@ -1,11 +1,15 @@
 package com.github.prodws.codingplatform.user;
 
 import com.github.prodws.codingplatform.config.JwtTokenProvider;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -13,6 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final Validator validator;
 
     public List<User> getUsers() {
         return userRepository.findAll();
@@ -49,6 +54,10 @@ public class UserService {
         checkIfUsernameExists(username);
 
         User user = new User(username, email, passwordEncoder.encode(password));
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
         return userRepository.save(user);
     }
 
