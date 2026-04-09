@@ -8,11 +8,59 @@ type Mutation {
     updateUsername(newUsername: String!): User
     updatePassword(newPassword: String!): User
 
+    createProblem(
+        type: ProblemType!,
+        title: String!,
+        difficulty: ProblemDifficulty!,
+        files: [FileInput!]!,
+        options: [OptionInput!]!
+    ): Problem
 }
+
+# Output types
 
 type User {
     username: String
     email: String
     totalPoints: Int
     createdAt: String
+}
+
+type Problem {
+    id: ID
+    title: String
+    difficulty: ProblemDifficulty
+    createdAt: String
+}
+
+# Input types
+
+input FileInput {
+    path: String!
+    name: String!
+    role: FileRole!
+}
+
+input OptionInput {
+    content: String!
+    isCorrect: Boolean!
+}
+
+# Enums
+
+enum ProblemType {
+    CODING
+    SELECTION
+}
+
+enum ProblemDifficulty {
+    EASY
+    MEDIUM
+    HARD
+}
+
+enum FileRole {
+    DESCRIPTION
+    TEMPLATE
+    TEST
 }
