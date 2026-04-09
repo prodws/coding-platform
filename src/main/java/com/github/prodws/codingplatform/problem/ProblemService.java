@@ -1,7 +1,7 @@
 package com.github.prodws.codingplatform.problem;
 
 import com.github.prodws.codingplatform.problem.registration.ProblemCreationStrategy;
-import com.github.prodws.codingplatform.problem.registration.RegisterProblemRequest;
+import com.github.prodws.codingplatform.problem.registration.CreateProblemRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +44,7 @@ public class ProblemService {
 
 
     @Transactional
-    public Problem createProblem(RegisterProblemRequest request) {
+    public Problem createProblem(CreateProblemRequest request) {
         checkIfProblemExists(request.title());
 
         ProblemCreationStrategy strategy = strategyByType.get(request.type());
