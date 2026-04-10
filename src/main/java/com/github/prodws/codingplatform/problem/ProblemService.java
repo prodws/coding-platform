@@ -45,6 +45,7 @@ public class ProblemService {
 
     @Transactional
     public Problem createProblem(CreateProblemRequest request) {
+        validateRequest(request);
         checkIfProblemExists(request.title());
 
         ProblemCreationStrategy strategy = strategyByType.get(request.type());
@@ -55,6 +56,21 @@ public class ProblemService {
         Problem problem = strategy.create(request);
 
         return problemRepository.save(problem);
+    }
+
+    private void validateRequest(CreateProblemRequest request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Request cannot be null");
+        }
+        if (request.type() == null) {
+            throw new IllegalArgumentException("Problem type cannot be null");
+        }
+        if (request.title() == null || request.title().isBlank()) {
+            throw new IllegalArgumentException("Problem title cannot be blank");
+        }
+        if (request.difficulty() == null) {
+            throw new IllegalArgumentException("Problem difficulty cannot be null");
+        }
     }
 
     private void checkIfProblemExists(String title) {
