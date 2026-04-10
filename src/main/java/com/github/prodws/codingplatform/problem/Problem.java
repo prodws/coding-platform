@@ -26,7 +26,7 @@ public abstract class Problem {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ProblemDifficulty problemDifficulty;
+    private ProblemDifficulty difficulty;
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
     @Getter(AccessLevel.NONE)
@@ -50,9 +50,9 @@ public abstract class Problem {
         validateFiles();
     }
 
-    protected Problem(String title, ProblemDifficulty problemDifficulty) {
+    protected Problem(String title, ProblemDifficulty difficulty) {
         this.title = title;
-        this.problemDifficulty = problemDifficulty;
+        this.difficulty = difficulty;
         this.createdAt = LocalDateTime.now();
     }
 
