@@ -1,0 +1,14 @@
+{
+  "type": "SELECTION",
+  "title": "Stack Basics",
+  "difficulty": "EASY",
+  "files": [
+    { "path": "problems/stack-basics/description.md", "name": "description.md", "role": "DESCRIPTION" }
+  ],
+  "options": [
+    { "content": "Stack is LIFO", "isCorrect": true },
+    { "content": "Stack is FIFO", "isCorrect": false },
+    { "content": "Queue is LIFO", "isCorrect": false },
+    { "content": "Stack allows access only to the top element", "isCorrect": true }
+  ]
+}
