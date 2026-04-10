@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @Service
 public class ProblemService {
@@ -56,6 +57,12 @@ public class ProblemService {
         Problem problem = strategy.create(request);
 
         return problemRepository.save(problem);
+    }
+
+    public Problem getRandomProblemByDifficulty(ProblemDifficulty difficulty) {
+        List<Problem> problems = problemRepository.findByDifficulty(difficulty);
+        if (problems.isEmpty()) throw new IllegalStateException("No problems found");
+        return problems.get(new Random().nextInt(problems.size()));
     }
 
     private void validateRequest(CreateProblemRequest request) {

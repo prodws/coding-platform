@@ -208,6 +208,29 @@ class ProblemServiceTest {
                 .hasMessage("Duplicate strategy for type: CODING");
     }
 
+    @Test
+    void getRandomProblemByDifficulty_success() {
+        Problem p1 = mock(Problem.class);
+        Problem p2 = mock(Problem.class);
+        when(problemRepository.findByDifficulty(ProblemDifficulty.EASY))
+                .thenReturn(List.of(p1, p2));
+
+        Problem result = problemService.getRandomProblemByDifficulty(ProblemDifficulty.EASY);
+
+        assertThat(result).isIn(p1, p2);
+    }
+
+    @Test
+    void getRandomProblemByDifficulty_noProblemsFound_throwsException() {
+        when(problemRepository.findByDifficulty(ProblemDifficulty.HARD))
+                .thenReturn(List.of());
+
+        assertThatThrownBy(() -> problemService.getRandomProblemByDifficulty(ProblemDifficulty.HARD))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("No problems found");
+    }
+
+
     private CreateProblemRequest validCodingRequest() {
         return new CreateProblemRequest(
                 ProblemType.CODING,

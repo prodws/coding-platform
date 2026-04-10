@@ -22,6 +22,12 @@ public class ProblemResolver {
         return problemService.getProblemByTitle(title);
     }
 
+    @QueryMapping
+    public Problem randomProblem(@Argument ProblemDifficulty difficulty) {
+        return problemService.getRandomProblemByDifficulty(difficulty);
+    }
+
+
     // TODO: restrict createProblem to ADMIN role only
     @MutationMapping
     public Problem createProblem(
