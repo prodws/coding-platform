@@ -16,3 +16,9 @@ Fill in your database credentials and generate a JWT secret:
 ```bash
 openssl rand -base64 32
 ```
+
+Build the test-runner image:
+> ⚠️ Docker must be installed and running locally
+```bash
+docker build -t java-test-runner .
+```
