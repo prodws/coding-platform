@@ -1,4 +1,5 @@
 type Query {
+    problems: [Problem!]!
     userByUsername(username: String!): User
     randomProblem(difficulty: ProblemDifficulty!): Problem
 }
@@ -16,6 +17,8 @@ type Mutation {
         files: [FileInput!]!,
         options: [OptionInput!]!
     ): Problem
+
+    submitSolution(problemId: ID!, solutionCode: String!): ExecutionResult!
 }
 
 # Output types
@@ -31,7 +34,15 @@ type Problem {
     id: ID
     title: String
     difficulty: ProblemDifficulty
+    type: ProblemType
     createdAt: String
+}
+
+type ExecutionResult {
+    status: ExecutionStatus!
+    stdout: String!
+    stderr: String!
+    passed: Boolean!
 }
 
 # Input types
@@ -64,4 +75,14 @@ enum FileRole {
     DESCRIPTION
     TEMPLATE
     TEST
+}
+
+enum ExecutionStatus {
+    PASSED
+    TESTS_FAILED
+    COMPILE_ERROR
+    RUNTIME_ERROR
+    SYSTEM_ERROR
+    TIMEOUT
+    INVALID_SUBMISSION
 }
