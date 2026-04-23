@@ -9,4 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certifi
     && curl -fsSL -o /opt/junit/junit-platform-console-standalone.jar \
     "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/${JUNIT_PLATFORM_VERSION}/junit-platform-console-standalone-${JUNIT_PLATFORM_VERSION}.jar"
 
-ENTRYPOINT ["sh", "-c", "javac -cp /opt/junit/junit-platform-console-standalone.jar *.java && java -jar /opt/junit/junit-platform-console-standalone.jar execute --class-path . --scan-class-path"]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
