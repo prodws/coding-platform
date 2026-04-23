@@ -28,6 +28,11 @@ public abstract class Problem {
     @Column(nullable = false)
     private ProblemDifficulty difficulty;
 
+    @Transient
+    public abstract ProblemType getType();
+
+
+
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
     @Getter(AccessLevel.NONE)
     @ToString.Exclude

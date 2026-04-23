@@ -19,12 +19,12 @@ public class ProblemService {
     }
 
     public Problem getProblemById(Long id) {
-        return problemRepository.findById(id)
+        return problemRepository.findByIdWithFiles(id)
                 .orElseThrow(() -> new IllegalStateException("Problem not found"));
     }
 
     public Problem getProblemByTitle(String title) {
-        return problemRepository.findByTitle(title)
+        return problemRepository.findByTitleWithFiles(title)
                 .orElseThrow(() -> new IllegalStateException("Problem not found"));
     }
 
@@ -60,7 +60,7 @@ public class ProblemService {
     }
 
     public Problem getRandomProblemByDifficulty(ProblemDifficulty difficulty) {
-        List<Problem> problems = problemRepository.findByDifficulty(difficulty);
+        List<Problem> problems = problemRepository.findByDifficultyWithFiles(difficulty);
         if (problems.isEmpty()) throw new IllegalStateException("No problems found");
         return problems.get(new Random().nextInt(problems.size()));
     }

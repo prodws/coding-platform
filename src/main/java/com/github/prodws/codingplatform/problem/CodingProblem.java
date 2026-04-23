@@ -33,4 +33,10 @@ public class CodingProblem extends Problem {
             );
         }
     }
+
+    @Override
+    public ProblemType getType() {
+        return ProblemType.CODING;
+    }
+
 }

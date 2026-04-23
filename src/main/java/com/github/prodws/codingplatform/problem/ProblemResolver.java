@@ -40,4 +40,10 @@ public class ProblemResolver {
         CreateProblemRequest request = new CreateProblemRequest(type, title, difficulty, files, options);
         return problemService.createProblem(request);
     }
+
+    @QueryMapping
+    public List<Problem> problems() {
+        return problemService.getProblems();
+    }
+
 }

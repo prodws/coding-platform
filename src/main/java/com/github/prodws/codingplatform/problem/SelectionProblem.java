@@ -42,4 +42,10 @@ public class SelectionProblem extends Problem {
             );
         }
     }
+
+    @Override
+    public ProblemType getType() {
+        return ProblemType.SELECTION;
+    }
+
 }
