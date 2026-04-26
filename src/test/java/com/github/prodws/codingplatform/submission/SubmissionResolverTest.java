@@ -27,13 +27,17 @@ class SubmissionResolverTest {
     void submitSolution_success() {
         Long problemId = 1L;
         String solutionCode = "class Solution {}";
+        SubmitSolutionInput input = new SubmitSolutionInput(99L, problemId, solutionCode);
         ExecutionResult expectedResult = new ExecutionResult(ExecutionStatus.PASSED, "ok", "", true);
+        Submission expectedSubmission = Submission.builder().build();
 
         when(submissionService.submitSolution(problemId, solutionCode)).thenReturn(expectedResult);
+        when(submissionService.saveSubmission(99L, problemId, solutionCode, expectedResult)).thenReturn(expectedSubmission);
 
-        ExecutionResult result = resolver.submitSolution(problemId, solutionCode);
+        Submission result = resolver.submitSolution(input);
 
-        assertEquals(expectedResult, result);
+        assertEquals(expectedSubmission, result);
         verify(submissionService).submitSolution(problemId, solutionCode);
+        verify(submissionService).saveSubmission(99L, problemId, solutionCode, expectedResult);
     }
 }

@@ -11,10 +11,15 @@ public class SubmissionResolver {
     private final SubmissionService submissionService;
 
     @MutationMapping
-    public ExecutionResult submitSolution(
-            @Argument Long problemId,
-            @Argument String solutionCode
-    ) {
-        return submissionService.submitSolution(problemId, solutionCode);
+    public Submission submitSolution(@Argument("input") SubmitSolutionInput input) {
+        ExecutionResult executionResult = 
+                submissionService.submitSolution(input.problemId(), input.solutionCode());
+        
+        return submissionService.saveSubmission(
+                input.userId(), 
+                input.problemId(), 
+                input.solutionCode(),
+                executionResult
+        );
     }
 }

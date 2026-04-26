@@ -18,12 +18,13 @@ type Mutation {
         options: [OptionInput!]!
     ): Problem
 
-    submitSolution(problemId: ID!, solutionCode: String!): ExecutionResult!
+    submitSolution(input: SubmitSolutionInput!): Submission!
 }
 
 # Output types
 
 type User {
+    id: ID!
     username: String
     email: String
     totalPoints: Int
@@ -38,6 +39,14 @@ type Problem {
     createdAt: String
 }
 
+type Submission {
+    id: ID!
+    user: User
+    problem: Problem
+    code: String!
+    status: ExecutionStatus!
+}
+
 type ExecutionResult {
     status: ExecutionStatus!
     stdout: String!
@@ -46,6 +55,12 @@ type ExecutionResult {
 }
 
 # Input types
+
+input SubmitSolutionInput {
+    userId: ID!
+    problemId: ID!
+    solutionCode: String!
+}
 
 input FileInput {
     path: String!
