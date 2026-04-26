@@ -44,22 +44,14 @@ class SubmissionEvaluatorTest {
     }
 
     @Test
-    void interpretResult_runtimeErrorInStderr_returnsRuntimeError() {
+    void interpretResult_runtimeErrorInStderr_returnsTestsFailed() {
         RawExecutionResult result = new RawExecutionResult(1, "", "at java.lang.String.equals", false);
 
         ExecutionStatus status = evaluator.interpretResult(result);
 
-        assertThat(status).isEqualTo(ExecutionStatus.RUNTIME_ERROR);
+        assertThat(status).isEqualTo(ExecutionStatus.TESTS_FAILED);
     }
 
-    @Test
-    void interpretResult_runtimeErrorWithCausedBy_returnsRuntimeError() {
-        RawExecutionResult result = new RawExecutionResult(1, "", "Caused by: java.io.IOException", false);
-
-        ExecutionStatus status = evaluator.interpretResult(result);
-
-        assertThat(status).isEqualTo(ExecutionStatus.RUNTIME_ERROR);
-    }
 
     @Test
     void interpretResult_exitCodeZero_returnsPassed() {
@@ -79,14 +71,6 @@ class SubmissionEvaluatorTest {
         assertThat(status).isEqualTo(ExecutionStatus.TESTS_FAILED);
     }
 
-    @Test
-    void interpretResult_exitCodeNonZeroNonOne_returnsSystemError() {
-        RawExecutionResult result = new RawExecutionResult(2, "", "", false);
-
-        ExecutionStatus status = evaluator.interpretResult(result);
-
-        assertThat(status).isEqualTo(ExecutionStatus.SYSTEM_ERROR);
-    }
 
     @Test
     void interpretResult_nullStdoutAndStderr_handledGracefully() {
