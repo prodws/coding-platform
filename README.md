@@ -7,14 +7,10 @@ CREATE DATABASE coding_platform;
 \q
 ```
 
-Copy `application.properties.example` to `application.properties` in the same directory:
+Set the required environment variables:
 ```bash
-cp src/main/resources/application.properties.example src/main/resources/application.properties
-```
-
-Fill in your database credentials and generate a JWT secret:
-```bash
-openssl rand -base64 32
+export DB_PASSWORD=your_database_password
+export JWT_SECRET=$(openssl rand -base64 32)
 ```
 
 Build the test-runner image:
