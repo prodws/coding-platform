@@ -54,7 +54,7 @@ class ProblemServiceTest {
     @Test
     void getProblemById_success() {
         Problem problem = mock(Problem.class);
-        when(problemRepository.findById(1L)).thenReturn(Optional.of(problem));
+        when(problemRepository.findByIdWithFiles(1L)).thenReturn(Optional.of(problem));
 
         Problem result = problemService.getProblemById(1L);
 
@@ -63,7 +63,7 @@ class ProblemServiceTest {
 
     @Test
     void getProblemById_notFound_throwsException() {
-        when(problemRepository.findById(1L)).thenReturn(Optional.empty());
+        when(problemRepository.findByIdWithFiles(1L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> problemService.getProblemById(1L))
                 .isInstanceOf(IllegalStateException.class)
@@ -73,7 +73,7 @@ class ProblemServiceTest {
     @Test
     void getProblemByTitle_success() {
         Problem problem = mock(Problem.class);
-        when(problemRepository.findByTitle("Two Sum")).thenReturn(Optional.of(problem));
+        when(problemRepository.findByTitleWithFiles("Two Sum")).thenReturn(Optional.of(problem));
 
         Problem result = problemService.getProblemByTitle("Two Sum");
 
@@ -82,7 +82,7 @@ class ProblemServiceTest {
 
     @Test
     void getProblemByTitle_notFound_throwsException() {
-        when(problemRepository.findByTitle("Two Sum")).thenReturn(Optional.empty());
+        when(problemRepository.findByTitleWithFiles("Two Sum")).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> problemService.getProblemByTitle("Two Sum"))
                 .isInstanceOf(IllegalStateException.class)
@@ -212,7 +212,7 @@ class ProblemServiceTest {
     void getRandomProblemByDifficulty_success() {
         Problem p1 = mock(Problem.class);
         Problem p2 = mock(Problem.class);
-        when(problemRepository.findByDifficulty(ProblemDifficulty.EASY))
+        when(problemRepository.findByDifficultyWithFiles(ProblemDifficulty.EASY))
                 .thenReturn(List.of(p1, p2));
 
         Problem result = problemService.getRandomProblemByDifficulty(ProblemDifficulty.EASY);
@@ -222,7 +222,7 @@ class ProblemServiceTest {
 
     @Test
     void getRandomProblemByDifficulty_noProblemsFound_throwsException() {
-        when(problemRepository.findByDifficulty(ProblemDifficulty.HARD))
+        when(problemRepository.findByDifficultyWithFiles(ProblemDifficulty.HARD))
                 .thenReturn(List.of());
 
         assertThatThrownBy(() -> problemService.getRandomProblemByDifficulty(ProblemDifficulty.HARD))
