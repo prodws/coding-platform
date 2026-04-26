@@ -20,6 +20,11 @@ public class SubmissionEvaluator {
                 + "\n"
                 + (result.stderr() == null ? "" : result.stderr());
 
+        if (full.contains("AssertionFailedError")
+                || full.contains("Tests run:")) {
+            return ExecutionStatus.TESTS_FAILED;
+        }
+
         if (full.contains("Exception")
                 || full.contains("Error")
                 || full.contains("StackOverflowError")) {
