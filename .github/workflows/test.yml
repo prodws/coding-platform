@@ -26,21 +26,21 @@ jobs:
           --health-retries 5
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up JDK
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-        cache: maven
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
 
-    - name: Build Docker test-runner image
-      run: docker build -t java-test-runner:latest .
+      - name: Build Docker test-runner image
+        run: docker build -t java-test-runner:latest ./backend
 
-    - name: Run Maven Tests
-      env:
-        DB_PASSWORD: root
-        JWT_SECRET: sUZQGYjiJy521BUeZ2KL054IEjSYYSZ+4bXLPveUug8=
-      run: ./mvnw test
+      - name: Run Maven Tests
+        env:
+          DB_PASSWORD: root
+          JWT_SECRET: sUZQGYjiJy521BUeZ2KL054IEjSYYSZ+4bXLPveUug8=
+        run: cd backend && ./mvnw test
